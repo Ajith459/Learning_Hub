@@ -1,0 +1,595 @@
+Write a SQL to find the list of Employees whose salary is greater than average employee salary of the company 
+					
+					
+Employee Table	 	 
+ 	 	 
+EmployeeID	Salary	Department
+20001121	45000	HR
+20001122	34000	IT
+20001123	49000	Finance
+20001124	85000	HR
+20001125	30000	Marketing
+
+
+
+
+select employee_id from employee where salary > (
+select AVG(salary) from employee groub by Department order by avg(salary) desc)
+
+
+
+select e.employee, c.employee_id, c.department, c.salary
+from employee e
+join company C
+on e.employee_id = c.employee_id
+where salary > 
+
+select AVG(salary) from employee groub by Department order by avg(salary) desc)
+
+
+
+interview-4
+1.archittevtur
+2.intro on project
+3.strreams
+4.tasks
+5.dynamic tables
+6.aws lamda
+7.python scripts
+5.vertical scaling and horizontal scalling
+6.scd
+
+
+
+interview-5:
+
+intro
+what you know about the streams
+tasks,
+snowpipe
+time travel
+vertical scaling and horizontal scalling
+micro partitions
+and 
+dynamic tables
+ip whitelist
+data share 
+in bound and outbound share
+
+
+cloning
+
+sceniro:
+we have 4 times create and replace the data but can wer get the data from the same table if possible how to get back the data
+masking policy what are masking
+network policy in window
+
+
+
+🔹 SQL Challenge
+Given two tables: `Employees` & `Departments` 👇
+
+* Find Top 3 highest salary employees by Department, and only where Department = Finance
+
+SELECT EMPLOYEE_ID, NAME,SALARY FROM EMPLOYEES WHERE DEPATMENT = FINACE ORDER BY SALARY DESC LIMIT 3;
+
+
+SELECT EMPLOYEE_ID,MAX(SALARY) FROM THE Employees
+WHERE DEPARTMENT = FINANCE GROUP BY EMPLOYEE_ID ORDER BY MAX(SALARY) LIMIT 3;
+
+
+WITH RANKED AS (
+SELECT EMPLOYYEDid,SALARY, RANK() OVER(ORDER BY SALARY DESC FROM EMPLOYEES WHERE DEPARTMENT = FINACE) AS HGEDST_SALR)
+
+SELECR * FROM RANKED WHERE HIGHEST_SALAR <= 3;
+
+
+
+
+* Handle duplicates in Employees table without using DISTINCT
+
+SELECT ID,COUNT(*) AS DUPLICATES FROM TABLE GROUP BY ID,HAVING DUPLICATES > 1
+
+
+Let’s assume we have a table named Employees with the following data, where duplicates are based on EmployeeName and Department:				
+
+| EmployeeID | EmployeeName | Department | Salary | HireDate   |
+| ---------- | ------------ | ---------- | ------ | ---------- |
+| 1          | Alice        | HR         | 5000   | 2023-01-15 |
+| 2          | Bob          | IT         | 6000   | 2022-06-20 |
+| 3          | Alice        | HR         | 4500   | 2023-03-10 |
+| 4          | Charlie      | Finance    | 5500   | 2021-09-05 |
+| 5          | Bob          | IT         | 6200   | 2022-07-01 |
+
+Remove duplicate rows, keeping the highest salary record?
+
+with dpt as (
+select employeeName,count(*) as duplicates from employees group by employeename having count(*) as duplicates > 1)
+delete from dpt where duplicates > 1 and order by salary desc 
+========================
+
+Answert:
+
+with cte as (
+select employeeID,employeename,salary, row_number() over(partition by employeename,department order by salary desc ) as higest_Salary from employees )
+delete e from employee e
+join cte c
+on e.employeeID = c.employeeID
+where c.higest_salary > 1
+
+
+
+
+===================================================================================================================
+
+ID NAME
+1   A
+2   B
+3   C
+4   D
+5   E
+6   F
+ 
+outPUT
+ 
+ID NAME
+1   B
+2   A
+3   D
+4   C
+5   F
+6   E
+
+
+select id,
+case when i % 2 = 1 then lead(name) over(order by id)
+else lag(name) over(order by id)
+end as name
+from test_table
+order by id;
+
+
+
+============================================
+First question: How would you rate yourself in SQL? (You mentioned you said 3.5.)
+
+Second question: What is the difference between intersect and union, and are you aware of how sets work?
+
+set ---match ---
+
+
+Third question: Can you explain different types of joins—like left join, right join, full join, and full outer join?
+
+Fourth question: How do you write a query to get the second-highest salary using window functions?
+
+Fifth question: How do you fetch order details for the last two months using date functions?
+
+Sixth question: If you have three months of data—January, February, and March—but you only need January and February, how would you filter out March?
+
+Seventh question (moving to Snowflake): What are micro-partitions in Snowflake, and can you explain their architecture?
+
+
+
+All data in Snowflake tables is automatically divided into micro-partitions, which are contiguous units of storage. Each micro-partition contains between 50 MB and 500 MB of uncompressed data (note that the actual size in Snowflake is smaller because data is always stored compressed). Groups of rows in tables are mapped into individual micro-partitions, organized in a columnar fashion. This size and structure allows for extremely granular pruning of very large tables, which can be comprised of millions, or even hundreds of millions, of micro-partitions.
+
+Snowflake stores metadata about all rows stored in a micro-partition, including:
+
+The range of values for each of the columns in the micro-partition.
+
+The number of distinct values.
+
+Additional properties used for both optimization and efficient query processing.
+
+
+
+
+Eighth question: How would you implement SCD1 and SCD2 (slowly changing dimensions) in a project?
+
+Ninth question: What is zero-copy cloning in Snowflake, and how does it differ from a normal copy or merge statement?
+
+Tenth question: They asked about Snowpipe and the copy command—what you know about them and how they differ.
+
+Eleventh question: A scenario question: If you accidentally drop a cloned table and don’t have time travel enabled, how would you recover that data?
+
+scale in and scale out
+NULL handling
+tables in snowflake
+
+
+
+
+write quer to create transient table and load data from another table
+
+
+create or replace transient table Emp as (
+
+Select * from db.schema.XYZ_table
+
+);
+
+
+
+
+
+
+1. orders
+
+| order_id | customer_id | order_date | order_amount |
+
+|----------|-------------|------------|--------------|
+
+| 101      | 1           | 2025-01-01 | 250.00       |
+
+| 102      | 2           | 2025-01-02 | 450.00       |
+
+| 103      | 1           | 2025-01-05 | 300.00       |
+
+| 104      | 3           | 2025-01-07 | 200.00       |
+ 
+2. customers
+
+| customer_id | name       | region    |
+
+|-------------|------------|-----------|
+
+| 1           | Alice      | East      |
+
+| 2           | Bob        | West      |
+
+| 3           | Charlie    | South     |
+
+ 2.Get total sales amount per customer. Sort by highest spender.
+ 
+ 
+SELECT 
+    o.customer_id,
+    c.name,
+    SUM(o.order_amount) AS total_spent
+FROM orders o
+JOIN customers c
+    ON o.customer_id = c.customer_id
+GROUP BY 
+    o.customer_id, c.name
+ORDER BY 
+    total_spent DESC;
+
+ 
+
+
+
+3.Find the latest order for each customer using a window function.
+
+
+se
+
+
+Snowflake architecture,
+Explain about Concurrency in SF ,
+How you built your career in snowflake,
+Explain about Time travel and time retention period ,
+How do you optimize performance in snowflake,
+What is the difference between cloning and copying,
+What is the difference between orchestration and transformation jobs ,
+How will you optimize performance in matillion,
+How will you schedule jobs in matillion,
+What are variables do you have in matillion,
+Explain about shared and copied behaviour of variables,
+How do you handle failures in matillion jobs,
+How will you load data from File to snowflake using matillion , what are the  components used...,
+
+
+Explain briefly about Compute layer
+
+
+
+
+1️⃣ The Optimization Showdown: You have 1 Billion records in a table and need to remove duplicates. Which approach offers the best performance and cost optimization: using DISTINCT or the QUALIFY clause?
+
+2️⃣ Advanced Pipelining: How do you design and implement a data pipeline to perform immediate, row-level data validation directly after ingestion from S3 into your Snowflake Raw Layer?
+
+3️⃣ Serverless Compute & AI: What are External Functions in Snowflake and, crucially, how can they be architected to enable seamless integration with custom Machine Learning models hosted outside of Snowflake?
+
+4️⃣ Metadata Management: Clients are dropping Parquet files into numerous, varying folders (e.g., /Customer/, /Product/, /Order/). How would you build an automated, dynamic process to load all these files into a structured format in Snowflake for reporting?
+
+5️⃣ Real-Time Data Design: When building a near-real-time data pipeline, how do Dynamic Tables fundamentally change the landscape, and in what specific scenarios would you still be forced to rely on the traditional Streams & Tasks?
+
+6️⃣ Migration Hurdles: What were the key architectural and performance challenges you encountered when migrating a complex, large-scale data warehouse from SQL Server to Snowflake?
+
+7️⃣ The AI Frontier: What are the most impactful Cortex functions currently available in Snowflake and how are you leveraging them for quick wins in analytics?
+
+8️⃣ Development Workflow: Outline a detailed, step-by-step process for integrating Git (for version control) with your production-level Snowflake Notebooks.
+
+9️⃣ Cost-Effective Parallelism: You have a Stored Procedure containing 10 interdependent SQL statements. Describe the specific techniques or features you would use to run these statements in parallel or drastically optimize them to reduce the total execution time.
+
+🔟 Unstructured Data Deep Dive: Briefly explain the use case and core capability of Document AI within the Snowflake platform.
+ 
+
+
+
+EY
+==========================
+input 
+ajith maths,chemistry
+kumar physics,social
+
+
+output:
+ajith maths
+ajith chemistry
+kumar physics
+kumar social
+
+
+
+
+
+
+
+Get me higest salary of the data set second higesth salary
+
+Inner join and left join nad right join 
+
+input :
+
+A
+1
+1
+2
+3
+4
+4
+5
+Null
+
+
+A
+1
+1
+1
+2
+2
+2
+2
+3
+4
+5
+6
+7
+NULL 
+null
+
+OUPUT: OF THE ALL LEFT AND RIGHT JOIN AND full join
+
+Snowflake:
+
+INTRO ABOUT THE SNOWFLAKE PROJECTS:
+Transient tables 
+and permanet tables
+time travel for the both transient and permanent travel?
+
+Sceniror:
+
+get back the data of transient table from today to last days ago....(But transient table has only 1 day)
+
+permanent - has more
+
+
+
+--
+stream -- need work in it 
+cortex -- exp[lain how cortex search and cotrex anayalyst amd coretex agents,
+
+explain scd 1 and scd 2 and write the merge query and explain
+
+
+I have asked about their project
+Stored procedures and how they implemented wirte a stored procedure.
+
+
+
+
+
+Level2:
+
+Intro of project ennd to end
+explanatntion about the tables?
+streams and task and stored procedure.
+
+
+SQL:
+C1
+1
+2
+2
+3
+3
+3
+4
+5
+6
+7
+
+OUTPUT:
+1
+2
+3
+4
+5
+6
+7
+
+not use use subquery
+not use group by
+use cte along any other ways
+
+
+
+===================
+
+Streams:
+knnow anout streams 
+views and secure view and materialized views 
+dynamic tables what are use of dymanic tables what is differes form the normal tables ?
+
+
+implenation of scd 1 and scd 2 
+writing of merge query
+
+going for the masking policy what are row level security and coulumn level security nad 
+
+masking define masking policy what are masking policiles
+
+expalin the masking policy properly ?
+
+RBAC is there why we need to mask the data if RBAC is there what is purpose of ROW level masking data?
+
+===============================================================================
+
+
+input
+1,
+2,
+3
+5
+
+Get the series of the next number
+output:
+4
+
+SELECT num
+FROM numbers
+WHERE num BETWEEN (SELECT MIN(ticket_no) FROM TICKETS)
+               AND (SELECT MAX(ticket_no) FROM TICKETS)
+AND num NOT IN (SELECT ticket_no FROM TICKETS);
+
+
+
+SELECT n
+FROM (
+    SELECT ROW_NUMBER() OVER () AS n
+    FROM Tickets
+) seq
+LEFT JOIN Tickets t ON t.TicketID = seq.n
+WHERE t.TicketID IS NULL;
+
+
+
+Q:
+
+Input
+A 10,20
+B 10,20,30
+
+Output 
+A 10
+A 20
+B 10
+B 20
+B 30
+
+
+
+
+for name, subjects in data:
+    parts = subjects.split(",")           # split the subjects
+    for subject in parts:                 # loop each subject
+        print(name, subject.strip())      # print output
+
+
+
+SLARY:
+
+AS PER ORGINZATITION STANDSA IM NOT PLANNING I NEED TO SOME EXPOSURE IF YOU GIVE SOME PACKAGE IF YOU MATCH SOME INDRSTUAIL STANNDARDS 
+IF THEY ASKING
+
+I NEEED SAY 12;5
+
+vairable pay : what is percentage ? -
+
+2 LAKHS - 75% variable
+
+10 Lkahs-- 
+
+IS there any possibilty to get all saraly as fixed ?
+
+what is medical policy?
+
+as an immediate joiner we can aske for joining bonus..!
+
+
+
+currently there is pipe line is going i will recieve an offer in soon they have quoated to 12 LPA
+
+COUNTER OFFER >>>
+
+
+CURRENT --
+
+9 LAKHS --
+
+IM EXPECTING 
+
+1.SKILL SET
+2.EXPIRENCE
+3. ALONG WITH MY ML/AI 
+
+which is comiing to upcoming to see i can see easily scaleup
+
+as first chance i have given ltimindtree i will long run employeee in these two 4 years i can switch im hold for the my orginxation it provided my oppurinty
+
+=====================================
+
+
+employee and departments
+
+
+find department name where no employees
+
+with N_m as (
+
+select employee_id from employees where employee_id not in (select employeed_id from departments)
+)
+select e.department_id,name from employee e
+join department d
+on e.department = d.department_id
+
+
+
+department_id -fk
+
+select e.department_id,name from employee e
+join department d
+on e.department = d.department_id
+
+
+
+
+========================
+ETL AND ELT
+
+DATA LAKE AND DATA WARE HOUSE
+RBAC
+DATA MINING
+----------------
+What are major issue has been found out in your project...
+how would make it as proud like ....
+issues
+=================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
