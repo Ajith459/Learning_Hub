@@ -93,7 +93,31 @@ python learnig ?
 
 
 
+📌 QUESTION
 
+You are given a table that stores trip details of users.
+Each user can make multiple trips, and each trip has a source city, destination city, and a travel date.
+
+Task
+
+👉 For each user, find:
+
+Starting city of the first trip
+
+Destination city of the last trip
+
+📊 DATASET
+Table: user_trips
+user_id	from_city	to_city	travel_date
+1	Chennai	Ahmedabad	2020-01-10
+1	Ahmedabad	Dubai	2020-03-15
+1	Dubai	Mexico	2020-06-20
+2	Chennai	Nepal	2021-02-05
+2	Nepal	Maharashtra	2021-04-18
+🎯 EXPECTED OUTPUT
+user_id	first_trip	last_trip
+1	Chennai	Mexico
+2	Chennai	Maharashtra
 
 
 
