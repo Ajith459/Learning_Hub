@@ -1,0 +1,118 @@
+1.project how ingestion is happening
+2. what are network ploucy in current organization?
+3.how to implement the network policcys
+3.what re rank and desne rank
+4.what are making policy row level masking policy and column level masking
+5.duplicates removal in the current table how will you remove it
+6.what are ip whitelisting ? how would implement?
+7.what is inbound and outbound shares ?
+8. Data shares In current account ?
+
+
+
+SQL:
+
+Tables:
+
+emp (epid, empname, dept_id)
+
+hike (hire_date, hike_date, epid)
+
+dept (deptid, deptname)
+
+Get employees who are NOT present in the HIKE table
+
+Fetch employees from the last 5 years
+
+
+
+
+
+📌 QUESTION
+
+You are given a table that stores trip details of users.
+Each user can make multiple trips, and each trip has a source city, destination city, and a travel date.
+
+Task
+
+👉 For each user, find:
+
+First trip (starting city → destination city)
+
+Last trip (starting city → destination city)
+
+📊 DATASET
+Table: user_trips
+user_id	from_city	to_city	travel_date
+1	Chennai	Ahmedabad	2020-01-10
+1	Ahmedabad	Dubai	2020-03-15
+1	Dubai	Mexico	2020-06-20
+2	Chennai	Nepal	2021-02-05
+2	Nepal	Maharashtra	2021-04-18
+🎯 EXPECTED OUTPUT
+user_id	first_trip	last_trip
+1	Chennai → Ahmedabad	Dubai → Mexico
+2	Chennai → Nepal	Nepal → Maharashtra
+
+
+
+
+You are given an employee login history table that stores multiple login and logout sessions for employees.
+
+Task
+
+👉 Get the total working hours per employee by summing all their login sessions.
+
+📊 DATASET
+Table: login_history
+emp_id	login_time	logout_time
+101	2024-07-01 09:10:00	2024-07-01 11:30:00
+101	2024-07-01 12:15:00	2024-07-01 18:40:00
+101	2024-07-02 09:05:00	2024-07-02 17:55:00
+102	2024-07-01 09:20:00	2024-07-01 18:10:00
+🎯 EXPECTED OUTPUT
+emp_id	total_hours
+101	17.58
+102	8.83
+
+
+
+snowflake:
+
+what is differs from legacy and snowflake ?
+what are streamsm?
+what is unque key ?
+what are how it will handles the data?
+what is know about the semistructed data and unsutructed data?
+how did you handled to semistructed data ?
+how snowflake differes columns wise ?
+
+what will feature will add to get snowflake is lagging that features is required to add to particular ?
+
+python learnig ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://achieve.snowflake.com/profile/ajithkumarankam645765/wallet
+
+
+https://cp.certmetrics.com/snowflake/en/profile/information
+
+
+https://achieve.snowflake.com/ddc3f2bb-9c9e-4c9f-a765-dab414f3e66c#acc.JKsHC8MP
+
+
+
+
